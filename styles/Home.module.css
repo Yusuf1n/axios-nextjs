@@ -12,6 +12,21 @@
   align-items: center;
 }
 
+.movielist {
+  list-style: none;
+  padding: 0;
+  margin: 40px 0;
+}
+
+.movielist li {
+  margin-bottom: 20px;
+}
+
+.movielist span {
+  display: block;
+  margin-bottom: 5px;
+}
+
 .footer {
   display: flex;
   flex: 1;
