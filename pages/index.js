@@ -3,21 +3,32 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const sql = require("../sql");
 const db = require("../db");
 
 export default function Home({ data }) {
-  const [movie, setMovie] = useState("");
+  // const [movie, setMovie] = useState("");
   // const [movies, setMovies] = useState(data);
+  const [title, setTitle] = useState("");
+  const [year, setYear] = useState("");
+  const [description, setDescription] = useState("");
+  const [slug, setSlug] = useState("");
 
-  const getMovie = async () => {
-    const response = await axios.get("api/movie");
-    setMovie(response.data);
-  };
+  const router = useRouter();
 
-  const createMovie = async () => {
-    const response = await axios.post("api/movie");
+  // const getMovie = async () => {
+  //   const response = await axios.get("api/movie");
+  //   setMovie(response.data);
+  // };
+
+  const createMovie = async (e) => {
+    e.preventDefault();
+    const body = { title, year, description, slug };
+
+    const response = await axios.post("api/movie", body);
+    router.reload(window.location.pathname);
   };
 
   // console.log({ movies });
@@ -46,10 +57,39 @@ export default function Home({ data }) {
             </li>
           ))}
         </ul>
-        <h1>{movie.title}</h1>
+        {/* <h1>{movie.title}</h1>
         <p>{movie.year}</p>
-        <p>{movie.description}</p>
-        <button onClick={() => createMovie()}>Create Movie</button>
+        <p>{movie.description}</p> */}
+        {/* <button onClick={() => createMovie()}>Create Movie</button> */}
+        <form className={styles.movieform} onSubmit={createMovie}>
+          <input
+            type="text"
+            placeholder="Title"
+            name="title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Year"
+            name="year"
+            onChange={(e) => setYear(+e.target.value)}
+          />
+          <textarea
+            name="description"
+            id=""
+            col="30"
+            row="10"
+            placeholder="Description"
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Slug"
+            name="slug"
+            onChange={(e) => setSlug(e.target.value)}
+          />
+          <button type="submit">Add</button>
+        </form>
       </main>
     </div>
   );
