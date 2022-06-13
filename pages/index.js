@@ -9,8 +9,6 @@ const sql = require("../sql");
 const db = require("../db");
 
 export default function Home({ data }) {
-  // const [movie, setMovie] = useState("");
-  // const [movies, setMovies] = useState(data);
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
   const [description, setDescription] = useState("");
@@ -57,10 +55,7 @@ export default function Home({ data }) {
             </li>
           ))}
         </ul>
-        {/* <h1>{movie.title}</h1>
-        <p>{movie.year}</p>
-        <p>{movie.description}</p> */}
-        {/* <button onClick={() => createMovie()}>Create Movie</button> */}
+
         <form className={styles.movieform} onSubmit={createMovie}>
           <input
             type="text"
