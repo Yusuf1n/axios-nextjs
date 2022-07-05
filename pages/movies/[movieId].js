@@ -63,13 +63,13 @@ export default function Movie({ data, value }) {
               <form className={styles.movieform} onSubmit={editMovie}>
                 <input
                   type="text"
-                  placeholder={movie.title}
+                  defaultValue={movie.title}
                   name="title"
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <input
                   type="text"
-                  placeholder={movie.year}
+                  defaultValue={movie.year}
                   name="year"
                   onChange={(e) => setYear(+e.target.value)}
                 />
@@ -78,12 +78,12 @@ export default function Movie({ data, value }) {
                   id=""
                   col="30"
                   row="10"
-                  placeholder={movie.description}
+                  defaultValue={movie.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
                 <input
                   type="text"
-                  placeholder={movie.slug}
+                  defaultValue={movie.slug}
                   name="slug"
                   onChange={(e) => setSlug(e.target.value)}
                 />

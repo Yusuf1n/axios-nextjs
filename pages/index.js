@@ -14,6 +14,9 @@ export default function Home({ data }) {
   const [description, setDescription] = useState("");
   const [slug, setSlug] = useState("");
 
+  const [searchData, setSearchData] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+
   const router = useRouter();
 
   // const getMovie = async () => {
@@ -26,10 +29,19 @@ export default function Home({ data }) {
     const body = { title, year, description, slug };
 
     const response = await axios.post("api/movie", body);
+    console.log(response);
     router.reload(window.location.pathname);
   };
 
-  // console.log({ movies });
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const body = { searchValue };
+
+    const response = await axios.post("/api/search", body);
+    // console.log(response.data.recordset);
+    setSearchData([[], ...response.data.recordset]);
+    // router.reload(window.location.pathname);
+  };
 
   return (
     <div className={styles.container}>
@@ -41,20 +53,46 @@ export default function Home({ data }) {
       <main className={styles.main}>
         {/* <button onClick={() => getMovie()}>Get Data</button> */}
         {/* <div>{() => getMovie()}</div> */}
+        <form className="search" onSubmit={handleSearch}>
+          <input
+            name="query"
+            type="search"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
 
-        <ul className={styles.movielist}>
-          {data.map((item) => (
-            <li key="item.id">
-              <Link href={`/movies/${item.id}`}>
-                <span>
-                  <strong role="button">{item.title}</strong>
-                </span>
-              </Link>
-              <span>{item.year}</span>
-              <span>{item.description}</span>
-            </li>
-          ))}
-        </ul>
+        {/*Checking if searchData is empty, if so shows all movies if not shows only
+        searched movies */}
+        {Object.keys(searchData).length === 0 ? (
+          <ul className={styles.movielist}>
+            {data.map((item) => (
+              <li key="item.id">
+                <Link href={`/movies/${item.id}`}>
+                  <span>
+                    <strong role="button">{item.title}</strong>
+                  </span>
+                </Link>
+                <span>{item.year}</span>
+                <span>{item.description}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className={styles.movielist}>
+            {searchData.map((item) => (
+              <li key="item.id">
+                <Link href={`/movies/${item.id}`}>
+                  <span>
+                    <strong role="button">{item.title}</strong>
+                  </span>
+                </Link>
+                <span>{item.year}</span>
+                <span>{item.description}</span>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <form className={styles.movieform} onSubmit={createMovie}>
           <input
