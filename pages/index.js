@@ -14,8 +14,9 @@ export default function Home({ data }) {
   const [description, setDescription] = useState("");
   const [slug, setSlug] = useState("");
 
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData] = useState(data);
   const [searchValue, setSearchValue] = useState("");
+  const [sortByValue, setSortByValue] = useState("");
 
   const router = useRouter();
 
@@ -35,13 +36,23 @@ export default function Home({ data }) {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const body = { searchValue };
 
+    const body = { searchValue, sortByValue };
     const response = await axios.post("/api/search", body);
+
     // console.log(response.data.recordset);
-    setSearchData([[], ...response.data.recordset]);
+    setSearchData([searchData, ...response.data.recordset]);
+    console.log(searchData);
     // router.reload(window.location.pathname);
   };
+
+  // const handleSort = async (e) => {
+  //   e.preventDefault();
+  //   const body = { sortByValue };
+  //   const response = await axios.post("/api/sort", body);
+
+  //   setSearchData([searchData, ...response.data.recordset]);
+  // };
 
   return (
     <div className={styles.container}>
@@ -62,9 +73,35 @@ export default function Home({ data }) {
           <button type="submit">Search</button>
         </form>
 
+        <select
+          value={sortByValue}
+          onChange={(e) => setSortByValue(e.target.value)}
+          onClick={handleSearch}
+        >
+          <option value="Default">Default</option>
+          <option value="Asc">Title A-Z</option>
+          <option value="Desc">Title Z-A</option>
+        </select>
+
+        <h1>{sortByValue}</h1>
+
+        <ul className={styles.movielist}>
+          {searchData.map((item) => (
+            <li key="item.id">
+              <Link href={`/movies/${item.id}`}>
+                <span>
+                  <strong role="button">{item.title}</strong>
+                </span>
+              </Link>
+              <span>{item.year}</span>
+              <span>{item.description}</span>
+            </li>
+          ))}
+        </ul>
+
         {/*Checking if searchData is empty, if so shows all movies if not shows only
         searched movies */}
-        {Object.keys(searchData).length === 0 ? (
+        {/* {Object.keys(searchData).length === 0 ? (
           <ul className={styles.movielist}>
             {data.map((item) => (
               <li key="item.id">
@@ -92,7 +129,24 @@ export default function Home({ data }) {
               </li>
             ))}
           </ul>
-        )}
+        )} */}
+
+        {/* Sorting Title Ascending */}
+        {/* <ul className={styles.movielist}>
+          {data
+            .sort((a, b) => (a.title - b.title ? 1 : -1))
+            .map((item) => (
+              <li key="item.id">
+                <Link href={`/movies/${item.id}`}>
+                  <span>
+                    <strong role="button">{item.title}</strong>
+                  </span>
+                </Link>
+                <span>{item.year}</span>
+                <span>{item.description}</span>
+              </li>
+            ))}
+        </ul> */}
 
         <form className={styles.movieform} onSubmit={createMovie}>
           <input
