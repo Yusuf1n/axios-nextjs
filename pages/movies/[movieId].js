@@ -7,11 +7,10 @@ const sql = require("../../sql");
 const db = require("../../db");
 
 export default function Movie({ data, value }) {
-  // console.log(`movie`);
-  const [title, setTitle] = useState("");
-  const [year, setYear] = useState("");
-  const [description, setDescription] = useState("");
-  const [slug, setSlug] = useState("");
+  const [title, setTitle] = useState(data[0].title);
+  const [year, setYear] = useState(data[0].year);
+  const [description, setDescription] = useState(data[0].description);
+  const [slug, setSlug] = useState(data[0].slug);
 
   const router = useRouter();
 
@@ -59,7 +58,7 @@ export default function Movie({ data, value }) {
 
         <div>
           {data.map((movie) => (
-            <div key="item.id">
+            <div key={movie.id}>
               <form className={styles.movieform} onSubmit={editMovie}>
                 <input
                   type="text"

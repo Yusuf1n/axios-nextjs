@@ -38,21 +38,13 @@ export default function Home({ data }) {
     e.preventDefault();
 
     const body = { searchValue, sortByValue };
-    const response = await axios.post("/api/search", body);
+    const response = await axios.post("/api/filter", body);
 
     // console.log(response.data.recordset);
     setSearchData([searchData, ...response.data.recordset]);
     console.log(searchData);
     // router.reload(window.location.pathname);
   };
-
-  // const handleSort = async (e) => {
-  //   e.preventDefault();
-  //   const body = { sortByValue };
-  //   const response = await axios.post("/api/sort", body);
-
-  //   setSearchData([searchData, ...response.data.recordset]);
-  // };
 
   return (
     <div className={styles.container}>
@@ -62,30 +54,45 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
+        <div class="d-flex justify-content-center mt-3">
+          <h1>Movies</h1>
+        </div>
         {/* <button onClick={() => getMovie()}>Get Data</button> */}
         {/* <div>{() => getMovie()}</div> */}
-        <form className="search" onSubmit={handleSearch}>
-          <input
-            name="query"
-            type="search"
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
+        <div class="d-flex">
+          <div class="me-auto p-2">
+            <form className="search" onSubmit={handleSearch}>
+              <input
+                name="query"
+                placeholder="Search Movie..."
+                type="search"
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+              &nbsp;
+              <button class="btn btn-primary btn-sm" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
 
-        <select
-          value={sortByValue}
-          onChange={(e) => setSortByValue(e.target.value)}
-          onClick={handleSearch}
-        >
-          <option value="Default">Default</option>
-          <option value="Asc">Title A-Z</option>
-          <option value="Desc">Title Z-A</option>
-        </select>
-
+          {/* Sort by */}
+          <div class="pt-3">Sort By</div>
+          <div class="p-2">
+            <select
+              class="form-select"
+              value={sortByValue}
+              onChange={(e) => setSortByValue(e.target.value)}
+              onClick={handleSearch}
+            >
+              <option value="Default">Default</option>
+              <option value="Asc">Title A-Z</option>
+              <option value="Desc">Title Z-A</option>
+            </select>
+          </div>
+        </div>
         <h1>{sortByValue}</h1>
-
-        <ul className={styles.movielist}>
+        {/* Normal displayed data */}
+        {/* <ul className={styles.movielist}>
           {searchData.map((item) => (
             <li key="item.id">
               <Link href={`/movies/${item.id}`}>
@@ -97,86 +104,75 @@ export default function Home({ data }) {
               <span>{item.description}</span>
             </li>
           ))}
-        </ul>
-
-        {/*Checking if searchData is empty, if so shows all movies if not shows only
-        searched movies */}
-        {/* {Object.keys(searchData).length === 0 ? (
-          <ul className={styles.movielist}>
-            {data.map((item) => (
-              <li key="item.id">
-                <Link href={`/movies/${item.id}`}>
-                  <span>
-                    <strong role="button">{item.title}</strong>
-                  </span>
-                </Link>
-                <span>{item.year}</span>
-                <span>{item.description}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul className={styles.movielist}>
-            {searchData.map((item) => (
-              <li key="item.id">
-                <Link href={`/movies/${item.id}`}>
-                  <span>
-                    <strong role="button">{item.title}</strong>
-                  </span>
-                </Link>
-                <span>{item.year}</span>
-                <span>{item.description}</span>
-              </li>
-            ))}
-          </ul>
-        )} */}
-
-        {/* Sorting Title Ascending */}
-        {/* <ul className={styles.movielist}>
-          {data
-            .sort((a, b) => (a.title - b.title ? 1 : -1))
-            .map((item) => (
-              <li key="item.id">
-                <Link href={`/movies/${item.id}`}>
-                  <span>
-                    <strong role="button">{item.title}</strong>
-                  </span>
-                </Link>
-                <span>{item.year}</span>
-                <span>{item.description}</span>
-              </li>
-            ))}
         </ul> */}
-
-        <form className={styles.movieform} onSubmit={createMovie}>
-          <input
-            type="text"
-            placeholder="Title"
-            name="title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Year"
-            name="year"
-            onChange={(e) => setYear(+e.target.value)}
-          />
-          <textarea
-            name="description"
-            id=""
-            col="30"
-            row="10"
-            placeholder="Description"
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Slug"
-            name="slug"
-            onChange={(e) => setSlug(e.target.value)}
-          />
-          <button type="submit">Add</button>
-        </form>
+        {/* table */}
+        <table
+          style={{
+            maxHeight: "30rem",
+            overflow: "auto",
+            display: "inline-block",
+          }}
+          class="table table-primary table-striped table-bordered border-secondary"
+        >
+          <thead style={{ position: "sticky", top: "0", zIndex: "1" }}>
+            <tr>
+              <th class="table-dark border-secondary">Title</th>
+              <th class="table-dark border-secondary">Year</th>
+              <th class="table-dark border-secondary">Description</th>
+            </tr>
+          </thead>
+          <tbody
+          // style={{
+          //   maxHeight: "30rem",
+          //   overflow: "auto",
+          //   display: "inline-block",
+          // }}
+          >
+            {searchData.map((item) => (
+              <tr>
+                <Link href={`/movies/${item.id}`}>
+                  <td>
+                    <strong role="button">{item.title}</strong>
+                  </td>
+                </Link>
+                <td>{item.year}</td>
+                <td>{item.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+          <form className={styles.movieform} onSubmit={createMovie}>
+            <h4>Add a Movie</h4>
+            <input
+              type="text"
+              placeholder="Title"
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Year"
+              name="year"
+              onChange={(e) => setYear(+e.target.value)}
+            />
+            <textarea
+              name="description"
+              id=""
+              col="30"
+              row="10"
+              placeholder="Description"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Slug"
+              name="slug"
+              onChange={(e) => setSlug(e.target.value)}
+            />
+            <button type="submit">Add</button>
+          </form>
+        </div>
       </main>
     </div>
   );
@@ -186,7 +182,7 @@ export async function getServerSideProps() {
   const execQuery = await sql.execute("SELECT * FROM Movie", db.nextjsDb);
   const data = execQuery.recordset;
 
-  console.log(data);
+  // console.log(data);
 
   return {
     props: {
