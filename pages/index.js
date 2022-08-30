@@ -49,11 +49,11 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 class="d-flex justify-content-center mt-3">Movies</h1>
+        <h1 className="d-flex justify-content-center mt-3">Movies</h1>
 
-        <div class="d-flex">
+        <div className="d-flex">
           {/* Search */}
-          <div class="me-auto p-2">
+          <div className="me-auto p-2">
             <form className="search" onSubmit={handleSearch}>
               <input
                 name="query"
@@ -62,17 +62,17 @@ export default function Home({ data }) {
                 onChange={(e) => setSearchValue(e.target.value)}
               />
               &nbsp;
-              <button class="btn btn-primary btn-sm" type="submit">
+              <button className="btn btn-primary btn-sm" type="submit">
                 Search
               </button>
             </form>
           </div>
 
           {/* Sort by */}
-          <div class="pt-3">Sort By</div>
-          <div class="p-2">
+          <div className="pt-3">Sort By</div>
+          <div className="p-2">
             <select
-              class="form-select"
+              className="form-select"
               value={sortByValue}
               onChange={(e) => setSortByValue(e.target.value)}
               onClick={handleSearch}
@@ -91,13 +91,13 @@ export default function Home({ data }) {
             overflow: "auto",
             display: "inline-block",
           }}
-          class="table table-primary table-striped table-bordered border-secondary"
+          className="table table-primary table-striped table-bordered border-secondary"
         >
           <thead style={{ position: "sticky", top: "0", zIndex: "1" }}>
             <tr>
-              <th class="table-dark border-secondary">Title</th>
-              <th class="table-dark border-secondary">Year</th>
-              <th class="table-dark border-secondary">Description</th>
+              <th className="table-dark border-secondary">Title</th>
+              <th className="table-dark border-secondary">Year</th>
+              <th className="table-dark border-secondary">Description</th>
             </tr>
           </thead>
           <tbody>
@@ -116,7 +116,7 @@ export default function Home({ data }) {
         </table>
 
         {/* Add a Movie form */}
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
           <form className={styles.movieform} onSubmit={createMovie}>
             <h4>Add a Movie</h4>
             <input

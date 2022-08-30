@@ -45,8 +45,8 @@ export default function Movie({ data, value }) {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <div class="mt-4">
-          <h1>s</h1>
+        <div className="mt-4">
+          <h1>Movie Details</h1>
           {data.map((movie) => (
             <div key={movie.id}>
               <form className={styles.movieform} onSubmit={editMovie}>
@@ -86,12 +86,15 @@ export default function Movie({ data, value }) {
           ))}
         </div>
 
-        <div class="mt-3">
+        <div className="mt-3">
           <Link href="/">
-            <button class="me-2 btn btn-primary">Back</button>
+            <button className="me-2 btn btn-primary">Back</button>
           </Link>
           <Link href="/">
-            <button class="btn btn-danger" onClick={() => deleteMovie(value)}>
+            <button
+              className="btn btn-danger"
+              onClick={() => deleteMovie(value)}
+            >
               Delete
             </button>
           </Link>
