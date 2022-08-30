@@ -105,7 +105,9 @@ export default function Home({ data }) {
               <tr>
                 <Link href={`/movies/${item.id}`}>
                   <td>
-                    <strong role="button">{item.title}</strong>
+                    <strong key={item.id} role="button">
+                      {item.title}
+                    </strong>
                   </td>
                 </Link>
                 <td>{item.year}</td>
