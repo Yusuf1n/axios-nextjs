@@ -102,12 +102,10 @@ export default function Home({ data }) {
           </thead>
           <tbody>
             {searchData.map((item) => (
-              <tr>
+              <tr key={item.id}>
                 <Link href={`/movies/${item.id}`}>
                   <td>
-                    <strong key={item.id} role="button">
-                      {item.title}
-                    </strong>
+                    <strong role="button">{item.title}</strong>
                   </td>
                 </Link>
                 <td>{item.year}</td>
