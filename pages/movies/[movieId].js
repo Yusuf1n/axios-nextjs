@@ -26,7 +26,8 @@ export default function Movie({ data, value }) {
 
     const data = await response.json();
     console.log(data);
-    router.reload(window.location.pathname);
+    // router.reload(window.location.pathname);
+    router.push("/");
 
     // return await response.json();
   };
@@ -44,34 +45,26 @@ export default function Movie({ data, value }) {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <ul className={styles.movielist}>
-          {data.map((movie) => (
-            <li key="item.id">
-              <span>
-                <strong>{movie.title}</strong>
-              </span>
-              <span>{movie.year}</span>
-              <span>{movie.description}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div>
+        <div class="mt-4">
+          <h1>s</h1>
           {data.map((movie) => (
             <div key={movie.id}>
               <form className={styles.movieform} onSubmit={editMovie}>
+                <label>Title</label>
                 <input
                   type="text"
                   defaultValue={movie.title}
                   name="title"
                   onChange={(e) => setTitle(e.target.value)}
                 />
+                <label>Year</label>
                 <input
                   type="text"
                   defaultValue={movie.year}
                   name="year"
                   onChange={(e) => setYear(+e.target.value)}
                 />
+                <label>Description</label>
                 <textarea
                   name="description"
                   id=""
@@ -80,6 +73,7 @@ export default function Movie({ data, value }) {
                   defaultValue={movie.description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <label>Slug</label>
                 <input
                   type="text"
                   defaultValue={movie.slug}
@@ -92,14 +86,16 @@ export default function Movie({ data, value }) {
           ))}
         </div>
 
-        <Link href="/">
-          <button class="me-2 btn btn-primary">Back</button>
-        </Link>
-        <Link href="/">
-          <button class="btn btn-danger" onClick={() => deleteMovie(value)}>
-            Delete
-          </button>
-        </Link>
+        <div class="mt-3">
+          <Link href="/">
+            <button class="me-2 btn btn-primary">Back</button>
+          </Link>
+          <Link href="/">
+            <button class="btn btn-danger" onClick={() => deleteMovie(value)}>
+              Delete
+            </button>
+          </Link>
+        </div>
       </main>
     </div>
   );

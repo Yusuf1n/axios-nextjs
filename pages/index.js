@@ -20,11 +20,6 @@ export default function Home({ data }) {
 
   const router = useRouter();
 
-  // const getMovie = async () => {
-  //   const response = await axios.get("api/movie");
-  //   setMovie(response.data);
-  // };
-
   const createMovie = async (e) => {
     e.preventDefault();
     const body = { title, year, description, slug };
@@ -54,12 +49,10 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <div class="d-flex justify-content-center mt-3">
-          <h1>Movies</h1>
-        </div>
-        {/* <button onClick={() => getMovie()}>Get Data</button> */}
-        {/* <div>{() => getMovie()}</div> */}
+        <h1 class="d-flex justify-content-center mt-3">Movies</h1>
+
         <div class="d-flex">
+          {/* Search */}
           <div class="me-auto p-2">
             <form className="search" onSubmit={handleSearch}>
               <input
@@ -90,21 +83,7 @@ export default function Home({ data }) {
             </select>
           </div>
         </div>
-        <h1>{sortByValue}</h1>
-        {/* Normal displayed data */}
-        {/* <ul className={styles.movielist}>
-          {searchData.map((item) => (
-            <li key="item.id">
-              <Link href={`/movies/${item.id}`}>
-                <span>
-                  <strong role="button">{item.title}</strong>
-                </span>
-              </Link>
-              <span>{item.year}</span>
-              <span>{item.description}</span>
-            </li>
-          ))}
-        </ul> */}
+
         {/* table */}
         <table
           style={{
@@ -121,13 +100,7 @@ export default function Home({ data }) {
               <th class="table-dark border-secondary">Description</th>
             </tr>
           </thead>
-          <tbody
-          // style={{
-          //   maxHeight: "30rem",
-          //   overflow: "auto",
-          //   display: "inline-block",
-          // }}
-          >
+          <tbody>
             {searchData.map((item) => (
               <tr>
                 <Link href={`/movies/${item.id}`}>
@@ -141,6 +114,8 @@ export default function Home({ data }) {
             ))}
           </tbody>
         </table>
+
+        {/* Add a Movie form */}
         <div class="d-flex justify-content-center">
           <form className={styles.movieform} onSubmit={createMovie}>
             <h4>Add a Movie</h4>
